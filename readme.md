@@ -2,7 +2,7 @@ Dataset Management System for creating task that has a dataset to be worked on b
 
 ## Installation
 
-1. This application uses node js, make sure to install node js in your respective machines first
+1. This application uses node js and nodemon, make sure to install node js and nodemon in your respective machines first
 2. install sqlite3 in respective machines
 3. use npm install to install the packages in the package.json
 
