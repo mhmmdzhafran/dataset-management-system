@@ -29,14 +29,11 @@
                     
                         <% if(allTask[i].created_user_id === id) { %>
                             <% if (allTask[i].status === "not booked") { %>
-                                <!-- <form action="/tasks/delete/<%=allTask[i].id%>?_method=DELETE" method="POST" style="display: inline-block">
-                                    <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> Delete</button>
-                                </form> -->
+                              
                                 <form action="/tasks/book/<%=allTask[i].id%>?_method=PUT" method="POST" style="display: inline-block">
                                     <button class="btn btn-success btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</button>    
                                 </form>
                                 <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
-                                <!-- <a href="/tasks/edit/<%=allTask[i].id%>" class="btn btn-warning btn-sm"> <i class="fas fa-pencil-alt"></i> Edit</a>  -->
                             <% } else { %>
                                 <% if(allTask[i].booked_user_id === id) { %>
                                     <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
