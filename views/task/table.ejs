@@ -24,16 +24,7 @@
                 </td>
                 
                 <td>
-                    <!-- <form action="/allTask/status/<%= allTask[i].id %>?_method=PUT" method="POST" style="display: inline-block">
-                        <button class="btn btn-primary btn-sm"> 
-                            <i class="fas fa-folder"></i> 
-                            <% if(allTask[i].status === "booked") { %>
-                              Turn Off
-                            <% } else { %>
-                               Turn on
-                            <% } %>
-                        </button>
-                    </form> -->
+                   
                         <% if(allTask[i].status !== "booked" && allTask[i].created_user_id === id) { %>
                             <a href="/tasks/detail/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
                             <a href="/tasks/edit/<%=allTask[i].id%>" class="btn btn-warning btn-sm"> <i class="fas fa-pencil-alt"></i> Edit</a>

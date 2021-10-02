@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {index, viewCreate, actionCreate, actionEdit, actionDelete, actionRevoked, indexDashboard, viewEdit, viewDetail, detailTask, bookedTask} = require('../app/Controller/TasksController');
+const {index, viewCreate, actionCreate, actionEdit, actionDelete, actionRevoked, indexDashboard, viewEdit, viewDetail, detailTask, bookedTask, indexDashboardBooked} = require('../app/Controller/TasksController');
 const {isLoggedIn} = require('../app/Middleware/auth');
 const multer = require('multer');
 const os = require('os');
@@ -8,6 +8,7 @@ const os = require('os');
 router.use(isLoggedIn);
 router.get('/', index);
 router.get('/dashboard', indexDashboard);
+router.get('/booked/dashboard', indexDashboardBooked);
 router.get('/create-task', viewCreate);
 router.post('/create-task', multer({dest: os.tmpdir()}).single('file_name') , actionCreate);
 router.get('/edit/:id', viewEdit);

@@ -4,9 +4,20 @@ const fs = require('fs');
 const config = require('../../config');
 
 module.exports = {
+    indexDashboardBooked: async(req, res) => {
+        const {id, name} = req.session.user;
+        const bookedTask = await Tasks.findAll({where:{booked_user_id: id, status: 'booked'}});
+        res.render('task/booked', {
+            bookedTask,
+            id: id,
+            name: name,
+            title: 'All Your Booked Task'
+        });
+    },
     indexDashboard: async(req, res) => {
         const {id, name} = req.session.user;
         const allTask = await Tasks.findAll({where:{created_user_id: id}});
+        
         res.render('task/index', {  
             allTask,
             id: id,
@@ -198,7 +209,7 @@ module.exports = {
                     } else {
                         await Tasks.destroy({where: {id: id}});
 
-                        let currentImage = `${config.routePath}/uploads/${getTasks.dataset.file_name}`;
+                        let currentImage = `${config.routePath}/public/uploads/${getTasks.dataset.file_name}`;
 
                         if (fs.existsSync(currentImage)) {
                             fs.unlinkSync(currentImage);

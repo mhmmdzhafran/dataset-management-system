@@ -1,0 +1,48 @@
+<table id="example3" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>No</th>
+      <th>Task Name</th>
+      <th>Task Description</th>
+      <th>Status</th>
+      <th>Action</th>
+      
+    </tr>
+    </thead>
+    <tbody>
+        <% for(let i = 0; i< bookedTask.length; i++) { %>
+            <tr>
+                <td><%= i + 1 %></td>
+                <td><%= bookedTask[i].name %></td>
+                <td><%= bookedTask[i].task_description %></td>
+                <td>
+                    <% if(bookedTask[i].status === "booked") { %>
+                        <span class="badge badge-success">Booked</span>
+                    <% } else { %>
+                        <span class="badge badge-info">Not Booked</span>
+                    <% } %>
+                </td>
+                
+                <td>
+                    
+                        <% if(bookedTask[i].status !== "booked" && bookedTask[i].created_user_id === id) { %>
+                            <a href="/tasks/detail/<%=bookedTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                            <a href="/tasks/edit/<%=bookedTask[i].id%>" class="btn btn-warning btn-sm"> <i class="fas fa-pencil-alt"></i> Edit</a>
+                            <form action="/tasks/book/<%=bookedTask[i].id%>?_method=PUT" method="POST" style="display: inline-block">
+                                <button class="btn btn-success btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</button>    
+                            </form>
+                            <form action="/tasks/delete/<%=bookedTask[i].id%>?_method=DELETE" method="POST" style="display: inline-block">
+                                <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> Delete</button>
+                            </form>
+                          <% } else { %>
+                            <a href="/tasks/detail/<%=bookedTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                            <form action="/tasks/update-booking/<%=bookedTask[i].id%>?_method=PUT" method="POST" style="display: inline-block">
+                                <button class="btn btn-danger btn-sm"> <i class="fas fa-pencil-alt"></i> Revoked</button>
+                            </form>
+                            
+                          <% } %>
+                </td>
+            </tr>
+        <% } %>
+    </tbody>
+  </table>
