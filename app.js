@@ -5,17 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const methodOverride = require('method-override');
 const session = require('express-session');
-const formidableMiddleware = require('express-formidable');
 var bodyParser = require('body-parser');
+const flash = require('connect-flash');
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var taskRouter = require('./routes/tasks');
-var apiRouter = require('./routes/api');
 
 var app = express();
-const URL_API = '/api/v1';
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,23 +27,15 @@ app.use(session({
 app.use(methodOverride('_method'));
 
 app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
-// app.use(formidableMiddleware({
-//   encoding: 'utf-8',
-//   multiples: true
-// }));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', taskRouter);
-app.use(`${URL_API}/`,apiRouter);
 
 
 // catch 404 and forward to error handler

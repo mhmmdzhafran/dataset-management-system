@@ -7,8 +7,6 @@ module.exports = {
     indexDashboard: async(req, res) => {
         const {id, name} = req.session.user;
         const allTask = await Tasks.findAll({where:{created_user_id: id}});
-        console.log(allTask, id);
-        console.log(req.session);
         res.render('task/index', {  
             allTask,
             id: id,
@@ -31,7 +29,7 @@ module.exports = {
                 allTask
             });
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks');
         }
     },
     detailTask: async(req, res) => {
@@ -55,7 +53,7 @@ module.exports = {
                 name: req.session.user.name
             });
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     viewCreate: async(req, res) => {
@@ -66,7 +64,7 @@ module.exports = {
                 title: 'Create Task'
             });
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     actionCreate: async(req, res) => {
@@ -99,17 +97,16 @@ module.exports = {
                     }
                 });
             } else {
-                console.log('error');
+                res.redirect('/tasks/dashboard');
             }
 
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     viewEdit: async(req, res) => {
         try {
             const {id} = req.params;
-            console.log(req.params);
             const findTask = await Tasks.findOne({ where: {id: id}});
             const datasets = await Tasks.findOne({ where: {id: id}, include: {  
                 model : dataset,
@@ -126,7 +123,7 @@ module.exports = {
                 name: req.session.user.name
             });
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     actionEdit: async(req, res) => {
@@ -139,14 +136,10 @@ module.exports = {
                 as: 'dataset'
             }});
 
-            console.log(req.file);
-
-            console.log('\n');
-
             if (!getTasks) {
-                res.sendStatus(404).json({message: "task not found"})
+                res.redirect('/tasks/dashboard');
             } else if (getTasks.status === "booked") {
-                res.sendStatus(404).json({message: "task already booked"});
+                res.redirect('/tasks/dashboard');
             } else {
                 const transaction = await sequalize.transaction();
                 if (req.file) {
@@ -161,27 +154,26 @@ module.exports = {
                     src.on('end', async () => {
                         try {
                             console.log(fileName, getTasks.dataset.file_name);
-                            let currentImage = `${config.routePath}/uploads/${getTasks.dataset.file_name}`;
-    
+                            let currentImage = `${config.routePath}/public/uploads/${getTasks.dataset.file_name}`;
+                            
                             if (fs.existsSync(currentImage)) {
                                 fs.unlinkSync(currentImage);
                             }  
-                            const [_, metadata] = await sequalize.query(`UPDATE tasks SET name = '${name}', created_user_id = '${idUser}', booked_user_id = null, task_description = '${task_description}', status = 'not booked' WHERE  id = ${id};`, {transaction});
+                            await sequalize.query(`UPDATE tasks SET name = '${name}', created_user_id = '${idUser}', booked_user_id = null, task_description = '${task_description}', status = 'not booked' WHERE  id = ${id};`, {transaction});
     
-                            await sequalize.query(`UPDATE datasets SET task_id = '${metadata.lastID}', file_name = '${fileName}' WHERE deletedAt = null AND id = '${id}';`, {transaction});
+                            await sequalize.query(`UPDATE datasets SET task_id = '${id}', file_name = '${fileName}' WHERE id = '${id}';`, {transaction});
     
                             await transaction.commit();
-                            
-                            // await transaction.commit();
+
                             res.redirect('/tasks/dashboard');
                         } catch (error) {
-                            console.log(error);
+                            res.redirect('/tasks/dashboard');
                         }
                     });
                 } else {
                     const [_, metadata] = await sequalize.query(`UPDATE tasks SET name = '${name}', created_user_id = '${idUser}', booked_user_id = null, task_description = '${task_description}', status = 'not booked' WHERE  id = ${id};`, {transaction});
 
-                    await sequalize.query(`UPDATE datasets SET task_id = '${metadata.lastID}', file_name = '${fileName}' WHERE deletedAt = null AND id = '${id}';`, {transaction});
+                    await sequalize.query(`UPDATE datasets SET task_id = '${metadata.lastID}' WHERE id = '${id}';`, {transaction});
 
                     await transaction.commit();
 
@@ -189,7 +181,7 @@ module.exports = {
                 }
             }
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     actionDelete: async(req, res) => {
@@ -214,11 +206,11 @@ module.exports = {
                         res.redirect('/tasks/dashboard');
                     }
                 } catch (error) {
-                    console.log(error);
+                    res.redirect('/tasks/dashboard');
                 }
             }
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     actionRevoked: async(req, res) => {
@@ -227,7 +219,9 @@ module.exports = {
         try {
             const getTasks = await Tasks.findOne({where: {id: id, booked_user_id: idUser}});
             if (!getTasks) {
-                res.sendStatus(404).json({message: "task already booked"});
+                req.flash("alertMessage", "User tidak teregistrasi");
+                req.flash("alertStatus", 'danger');
+                res.redirect('/tasks/dashboard');
             } else {
                 if (getTasks.status === "booked") {
                     const bookedStatus = "not booked";
@@ -238,7 +232,7 @@ module.exports = {
                 }
             }    
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
         
     },
@@ -263,7 +257,7 @@ module.exports = {
                 }
             }    
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     },
     viewDetail: async(req, res) => {
@@ -279,7 +273,7 @@ module.exports = {
                 model : dataset,
                 as: 'dataset'
             }});
-            console.log(datasets);
+           
             res.render('task/detail', {
                 findTask,
                 detailUser, 
@@ -289,7 +283,7 @@ module.exports = {
                 name: req.session.user.name
             });
         } catch (error) {
-            console.log(error);
+            res.redirect('/tasks/dashboard');
         }
     }
 }
