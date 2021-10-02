@@ -35,25 +35,6 @@ npm run dev
 3. email mareeUser3@test.com , password rahasia
 ```
 
-## Usage
-
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
-
-## Contributing
+## Explanation
 
 If it cannot work on the machine, you can watch the video on it by using the link below
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
