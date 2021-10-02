@@ -37,4 +37,4 @@ npm run dev
 
 ## Explanation
 
-If it cannot work on the machine, you can watch the video on it by using the link below
+If it cannot work on the machine, you can contact me again, thank you
