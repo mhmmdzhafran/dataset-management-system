@@ -64,7 +64,9 @@
                           </div>
                           <a href="/tasks/detail/<%=userCreateTask.id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Revoked Book</a>    
                       <% } else { %>
-                        <a href="/tasks/detail/<%=userCreateTask.id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</a>    
+                        <form action="/tasks/book/<%=userCreateTask.id%>?_method=PUT" method="POST" style="display: inline-block">
+                            <button class="btn btn-success btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</button>    
+                        </form>    
                       <% } %>
                   </div>
                   <!-- /.card-body -->
