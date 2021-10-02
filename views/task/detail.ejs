@@ -1,0 +1,85 @@
+<%- include ("../partials/header.ejs") %>
+<%- include ("../partials/navbar.ejs") %>
+<%- include ("../partials/sidebar.ejs") %>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Detail Task</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/tasks/dashboard">Task</a></li>
+              <li class="breadcrumb-item active">Detail</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+           
+            <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Detailed Task <%= findTask.name %></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                 <input type="hidden" name="" id="id-task" value="<%= findTask.id %>">
+                  <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">Task Name</label>
+                        <input type="text" value="<%= findTask.name %>" name="name" class="form-control" id="name" placeholder="Input Task Name" disabled>
+                      </div>
+                    <div class="form-group">
+                        <label>Task Description</label>
+                        <input type="text" value="<%= findTask.task_description %>" name="task_description" class="form-control" id="task_description" placeholder="Input Task Description" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label>Task Status</label>
+                        <input type="text" value="<%= findTask.status %>" name="task_description" class="form-control" id="task_description" placeholder="Input Task Description" disabled>
+                      </div>
+                      <% if (findTask.status === "booked") { %>
+                        <div class="form-group">
+                            <label>Task Booked By</label>
+                            <input type="text" value="<%= detailUser.booked_user.name %>" name="task_description" class="form-control" id="task_description" placeholder="Input Task Description" disabled>
+                          </div>
+                      <% } %>
+                      <div class="form-group">
+                        <div class="form-group">
+                            <label>Download Dataset</label>
+                            <ol>
+                                <li>
+                                    <a href="/uploads/<%= datasets.dataset.file_name %>"><%= datasets.dataset.file_name %></a>
+                                </li>
+                            </ol>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- /.card-body -->
+              </div>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <%- include ("../partials/footer.ejs") %>
+
+  <%- include ("../partials/js.ejs") %>
+
+  

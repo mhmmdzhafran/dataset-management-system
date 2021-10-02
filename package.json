@@ -1,0 +1,29 @@
+{
+  "name": "dataset-management",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "create-db": "node ./db/migrations/create_table_users.js && node ./db/migrations/create_table_tasks.js && node ./db/migrations/create_table_datasets.js",
+    "insert-db": "node ./db/seed/insert_table_users.js && node ./db/seed/insert_table_tasks.js && node ./db/seed/insert_table_datasets.js"
+  },
+  "dependencies": {
+    "admin-lte": "^3.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "~4.16.1",
+    "express-session": "^1.17.2",
+    "http-errors": "~1.6.3",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "sequelize": "^6.6.5",
+    "sqlite3": "^5.0.2"
+  }
+}

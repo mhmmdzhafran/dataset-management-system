@@ -1,0 +1,67 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>No</th>
+      <th>Task Name</th>
+      <th>Created By</th>
+      <th>Task Description</th>
+      <th>Status</th>
+      <th>Action</th>
+      
+    </tr>
+    </thead>
+    <tbody>
+        <% for(let i = 0; i< allTask.length; i++) { %>
+            <tr>
+                <td><%= i + 1 %></td>
+                <td><%= allTask[i].name %></td>
+                <td><%= allTask[i].task_user.name%></td>
+                <td><%= allTask[i].task_description %></td>
+                <td>
+                    <% if(allTask[i].status === "booked") { %>
+                        <span class="badge badge-success">Booked</span>
+                    <% } else { %>
+                        <span class="badge badge-info">Not Booked</span>
+                    <% } %>
+                </td>
+                
+                <td>
+                    
+                        <% if(allTask[i].created_user_id === id) { %>
+                            <% if (allTask[i].status === "not booked") { %>
+                                <!-- <form action="/tasks/delete/<%=allTask[i].id%>?_method=DELETE" method="POST" style="display: inline-block">
+                                    <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> Delete</button>
+                                </form> -->
+                                <form action="/tasks/book/<%=allTask[i].id%>?_method=PUT" method="POST" style="display: inline-block">
+                                    <button class="btn btn-success btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</button>    
+                                </form>
+                                <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                                <!-- <a href="/tasks/edit/<%=allTask[i].id%>" class="btn btn-warning btn-sm"> <i class="fas fa-pencil-alt"></i> Edit</a>  -->
+                            <% } else { %>
+                                <% if(allTask[i].booked_user_id === id) { %>
+                                    <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                                    <form action="/tasks/update-booking/<%=allTask[i].id%>%>?_method=PUT" method="POST" style="display: inline-block">
+                                        <button class="btn btn-danger btn-sm"> <i class="fas fa-pencil-alt"></i> Revoked</button>    
+                                    </form>
+                                <% } else { %>
+                                    <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                                <% } %>
+                            <% } %>
+                          <% } else { %>
+                            <%  if (allTask[i].status === "not booked") { %>
+                                <form action="/tasks/book/<%=allTask[i].id%>?_method=PUT" method="POST" style="display: inline-block">
+                                    <button class="btn btn-success btn-sm"> <i class="fas fa-pencil-alt"></i> Book Task</button>    
+                                </form>
+                                <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>
+                            <% } else { %>
+                                <form action="/tasks/update-booking/<%=allTask[i].id%>%>?_method=PUT" method="POST" style="display: inline-block">
+                                    <button class="btn btn-danger btn-sm"> <i class="fas fa-pencil-alt"></i> Revoked</button>    
+                                </form>
+                                <a href="/tasks/dashboard/detail-task/<%=allTask[i].id%>" class="btn btn-info btn-sm"> <i class="fas fa-pencil-alt"></i> Detail</a>    
+                            <% }  %>
+                          <% } %>
+                </td>
+            </tr>
+        <% } %>
+    </tbody>
+  </table>
